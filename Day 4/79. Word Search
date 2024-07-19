@@ -1,0 +1,27 @@
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int row = board.length, col = board[0].length;
+        int[][] visited = new int[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (word.charAt(0) == board[i][j]) {
+                    if (dfs(board, visited, i, j, 0, word)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    boolean dfs(char[][] arr, int[][] visited, int r, int c, int index, String s) {
+        if (index == s.length()) return true;
+        if (r < 0 || c < 0 || r == arr.length || c == arr[0].length || visited[r][c] == 1 || s.charAt(index) != arr[r][c]) return false;
+        
+        visited[r][c] = 1;
+        boolean k = dfs(arr, visited, r + 1, c, index + 1, s) || 
+                    dfs(arr, visited, r, c + 1, index + 1, s) || 
+                    dfs(arr, visited, r - 1, c, index + 1, s) || 
+                    dfs(arr, visited, r, c - 1, index + 1, s);
+        visited[r][c] = 0;
+        return k;
+    }
+}
