@@ -1,0 +1,44 @@
+class RandomizedCollection {
+    private final List<Integer> numbers;
+    private final Map<Integer, Set<Integer>> map;
+    private Random rand;
+    public RandomizedCollection() {
+        numbers = new ArrayList<>();
+        map = new HashMap<>();
+        rand = new Random();
+    }
+    
+    public boolean insert(int val) {
+        Set<Integer> positions = map.computeIfAbsent(val, k -> new HashSet<>());
+        positions.add(numbers.size());
+        numbers.add(val);
+        return positions.size() == 1;
+    }
+    
+    public boolean remove(int val) {
+        Set<Integer> positions = map.get(val);
+        if (positions != null) {
+            int positionToDelete = positions.iterator().next();
+            if (positionToDelete != numbers.size() - 1) {
+                Set<Integer> set = map.get(numbers.get(numbers.size() - 1));
+                positions.remove(positionToDelete);
+                set.remove(numbers.size() -1);
+                set.add(positionToDelete);
+                numbers.set(positionToDelete, numbers.get(numbers.size() -1));
+            } else {
+                positions.remove(positionToDelete);
+            }
+            if (positions.isEmpty()) {
+                map.remove(val);
+            }
+            numbers.remove(numbers.size() - 1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public int getRandom() {
+        return numbers.get(rand.nextInt(numbers.size()));
+    }
+}
