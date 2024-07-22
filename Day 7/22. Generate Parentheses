@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> list = new ArrayList<>();
+        helper(n, n, new StringBuilder(), list);
+        return list;
+    }
+    
+    public void helper(int start, int end, StringBuilder sb, List<String> list){
+        if (start == 0 && end == 0) {
+            list.add(sb.toString());
+            return;
+        }
+        if (start > 0) {
+            sb.append("(");
+            helper(start - 1, end, sb, list);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        
+        if (end > 0 && start < end) {
+            sb.append(")");
+            helper(start, end - 1, sb, list);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
