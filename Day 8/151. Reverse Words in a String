@@ -1,0 +1,20 @@
+class Solution {
+    public String reverseWords(String s) {
+        String[] arr = s.split("\\s+");
+        ArrayList<String> list1 = new ArrayList<>(Arrays.asList(arr));
+        ArrayList<String> list2 = new ArrayList<>();
+        
+        for (int i = list1.size() - 1; i >= 0; i--) {
+            list2.add(list1.get(i));
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for (String word : list2) {
+            sb.append(word).append(" ");
+        }
+        
+        String ans = sb.toString().trim();
+        
+        return ans;
+    }
+}
