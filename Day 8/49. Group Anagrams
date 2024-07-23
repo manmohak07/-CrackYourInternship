@@ -1,0 +1,47 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] arr) {
+        List<List<String>> ans = new ArrayList<>();
+        boolean[] visited = new boolean[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            if (!visited[i]) {
+                List<String> list = new ArrayList<>();
+                list.add(arr[i]);
+                for (int j = i + 1; j < arr.length; j++) {
+                    if (!visited[j] && isAnagram(arr[i], arr[j])) {
+                        list.add(arr[j]);
+                        visited[j] = true;
+                    }
+                }
+                ans.add(list);
+            }
+            visited[i] = true;
+        }
+        return ans;
+    }
+
+    static boolean isAnagram(String s, String t) {
+        if (s.length() != t.length())
+            return false;
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        HashMap<Character, Integer> map2 = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            map1.put(s.charAt(i), map1.getOrDefault(s.charAt(i), 0) + 1);
+            map2.put(t.charAt(i), map2.getOrDefault(t.charAt(i), 0) + 1);
+        }
+
+        return helper(map1, map2);
+    }
+
+    static boolean helper(Map<Character, Integer> map1, Map<Character, Integer> map2) {
+        for (Map.Entry<Character, Integer> entry : map1.entrySet()) {
+            char key = entry.getKey();
+            int value = entry.getValue();
+            if (!map2.containsKey(key) || map2.get(key) != value) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
